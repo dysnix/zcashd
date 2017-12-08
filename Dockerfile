@@ -17,7 +17,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends a
 RUN zcash-fetch-params
 
 ADD supervisord.conf /etc/supervisor/conf.d/programs.conf
+ADD nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8332
+EXPOSE 443
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
