@@ -18,9 +18,6 @@ RUN zcash-fetch-params
 
 ADD supervisord.conf /etc/supervisor/conf.d/programs.conf
 
-EXPOSE 18232
-EXPOSE 18233
-EXPOSE 8232
-EXPOSE 8233
+EXPOSE 8332
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
