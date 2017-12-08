@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: zcashd
+    app: zcashd
+  name: zcashd
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zcashd
+    spec:
+      containers:
+        - name: zcashd
+          image: kuberstack/zcashd
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 443
+              name: zcashd-rpc
+          volumeMounts:
+            - mountPath: /root
+              name: zcashd-pvc
+            - mountPath: /etc/zcashd
+              name: zcashd-conf
+              readOnly: true
+            - mountPath: /etc/zcashd-ssl
+              name: zcashd-ssl
+              readOnly: true
+          resources:
+            requests:
+              cpu: 0.5
+              memory: 512Mi
+            limits:
+              cpu: 4
+              memory: 10000Mi
+      volumes:
+        - name: zcashd-pvc
+          persistentVolumeClaim:
+            claimName: zcashd-pvc
+        - name: zcashd-conf
+          secret:
+            secretName: zcashd-conf
+        - name: zcashd-ssl
+          secret:
+            secretName: zcashd-ssl
